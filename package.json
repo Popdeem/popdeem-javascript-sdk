@@ -1,0 +1,49 @@
+{
+  "name": "popdeem-javascript-sdk",
+  "version": "1.0.0",
+  "description": "Javascript sdk for Popdeem",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "build": "webpack",
+    "start:dev": "webpack-dev-server",
+    "prebuild": "rimraf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoavo/popdeem-javascript-sdk.git"
+  },
+  "keywords": [
+    "popdeem",
+    "sdk",
+    "library",
+    "javascript"
+  ],
+  "author": "Hoa Vo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoavo/popdeem-javascript-sdk/issues"
+  },
+  "homepage": "https://github.com/hoavo/popdeem-javascript-sdk#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "local-storage": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.2",
+    "babel-loader": "^8.0.6",
+    "babel-preset-minify": "^0.5.1",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "rimraf": "^3.0.0",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
+  }
+}
