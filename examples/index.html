@@ -11,6 +11,21 @@
   </head>
   <body>
     <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: "497946473670301",
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: "v4.0"
+        });
+      };
+    </script>
+    <script
+      async
+      defer
+      src="https://connect.facebook.net/en_US/sdk.js"
+    ></script>
+    <script>
       window.onload = function() {
         pd.init({ API_KEY: "e934194f-cf4d-4b79-8526-9ccbbc06d0c9" });
       };
@@ -27,24 +42,34 @@
         const logArea = document.getElementById("loading");
         logArea.style.visibility = "hidden";
       }
-      function registerUser() {
-        showLoading();
-        pd.registerUser({
-          user: {
-            facebook: {
-              access_token:
-                "EAAZA2c15Dn9ABAPsBmvwVVkqZAfaznyqf7tqieJI12fvC8hypeluUAkQJeTUYZBqgb70wfN74Q6NxYSzogFrIYxTSW5GuQU3mzaxSkWtX3xc5gjkonrbdLPYzCrZAqD7PEtUX1Po7ypOpaop0GndC4v6okuBCcO0TLh1bee1f8vBeOuoyM8Ca61pcYRAZASojFjRjMpaa9q2tzUXD1yMeTMZBftlzmFUAUwgW2mLnEcwZDZD",
-              id: "2424203447860834"
-            },
-            unique_identifier: "UNIQUE_UUID_INDENTIFIER2"
+      function registerUserwithFacebook() {
+        FB.login(function(response) {
+          if (response.authResponse) {
+            const accessToken = response.authResponse.accessToken;
+            const userID = response.authResponse.userID;
+            registerUser({
+              user: {
+                facebook: {
+                  access_token: accessToken,
+                  id: userID
+                },
+                unique_identifier: "11322166"
+              }
+            });
+          } else {
+            console.log("User cancelled login or did not fully authorize.");
           }
-        })
+        });
+      }
+      function registerUser(data) {
+        showLoading();
+        pd.registerUser(data)
           .then(result => {
-            setlog(JSON.stringify(result));
+            setlog(JSON.stringify(result.data));
             hideLoading();
           })
           .catch(function(error) {
-            setlog(JSON.stringify(error));
+            setlog(JSON.stringify(error.response ? error.response.data: error));
             hideLoading();
           });
       }
@@ -52,11 +77,11 @@
         showLoading();
         pd.userInfo()
           .then(result => {
-            setlog(JSON.stringify(result));
+            setlog(JSON.stringify(result.data));
             hideLoading();
           })
           .catch(function(error) {
-            setlog(JSON.stringify(error));
+            setlog(JSON.stringify(error.response ? error.response.data: error));
             hideLoading();
           });
       }
@@ -64,11 +89,11 @@
         showLoading();
         pd.rewards()
           .then(result => {
-            setlog(JSON.stringify(result));
+            setlog(JSON.stringify(result.data));
             hideLoading();
           })
           .catch(function(error) {
-            setlog(JSON.stringify(error));
+            setlog(JSON.stringify(error.response ? error.response.data: error));
             hideLoading();
           });
       }
@@ -76,11 +101,11 @@
         showLoading();
         pd.activity()
           .then(result => {
-            setlog(JSON.stringify(result));
+            setlog(JSON.stringify(result.data));
             hideLoading();
           })
           .catch(function(error) {
-            setlog(JSON.stringify(error));
+            setlog(JSON.stringify(error.response ? error.response.data: error));
             hideLoading();
           });
       }
@@ -96,11 +121,11 @@
           }
         })
           .then(result => {
-            setlog(JSON.stringify(result));
+            setlog(JSON.stringify(result.data));
             hideLoading();
           })
           .catch(function(error) {
-            setlog(JSON.stringify(error));
+            setlog(JSON.stringify(error.response ? error.response.data: error));
             hideLoading();
           });
       }
@@ -113,8 +138,8 @@
         Popdeem Javascript SDK Example
       </h3>
       <div class="d-flex flex-column">
-        <button class="btn btn-primary mb-2" onclick="registerUser()">
-          Register User on Popdeem
+        <button class="btn btn-primary mb-2" onclick="registerUserwithFacebook()">
+          Register User on Popdeem with Facebook
         </button>
         <button class="btn btn-primary mb-2">
           Update Existing Popdeem User
