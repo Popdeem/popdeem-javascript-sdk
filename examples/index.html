@@ -129,6 +129,46 @@
             hideLoading();
           });
       }
+     
+    </script>
+    <script>
+      function authenticateInstagram() {
+        var CLIENT_ID = "76361856d2bc47fe99495d189f8cdcf8";
+        var REDIRECT_URI = "https://localhost:3000/instagram-popdeem.html";
+        var url = "https://api.instagram.com/oauth/authorize/?client_id="+ CLIENT_ID + "&redirect_uri="+REDIRECT_URI+"&response_type=code&scope=basic";
+        // Pop-up window size, change if you want
+        var popupWidth = 700,
+            popupHeight = 500,
+            popupLeft = (window.screen.width - popupWidth) / 2,
+            popupTop = (window.screen.height - popupHeight) / 2;
+        // Url needs to point to instagram_auth.php
+        var popup = window.open('instagram-popdeem.html', '', 'width='+popupWidth+',height='+popupHeight+',left='+popupLeft+',top='+popupTop+'');
+        popup.onload = function() { 
+          if(window.location.hash.length == 0) {
+              popup.open(url, '_self');
+          }
+
+        }
+
+      };
+      function registerUserwithTwitter() {
+         const access_token = window.localStorage.getItem('InstagramToken')
+         const id = window.localStorage.getItem('InstagramUserId') 
+         if(access_token) {
+          registerUser({
+              user: {
+                instagram: {
+                  access_token,
+                  id
+                },
+                unique_identifier: "11322155"
+              }
+            });
+         }else {
+          authenticateInstagram()
+         }
+       
+      }
     </script>
     <div
       class="container d-flex justify-content-center align-items-center flex-column"
@@ -140,6 +180,9 @@
       <div class="d-flex flex-column">
         <button class="btn btn-primary mb-2" onclick="registerUserwithFacebook()">
           Register User on Popdeem with Facebook
+        </button>
+        <button class="btn btn-primary mb-2" onclick="registerUserwithTwitter()">
+          Register User on Popdeem with Instagram
         </button>
         <button class="btn btn-primary mb-2">
           Update Existing Popdeem User

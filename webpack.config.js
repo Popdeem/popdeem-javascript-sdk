@@ -2,6 +2,7 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
@@ -26,6 +27,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "examples/index.html"
     }),
+    new CopyPlugin([
+      {
+        from: "examples/instagram-popdeem.html",
+        to: "instagram-popdeem.html"
+      },
+      {
+        from: "examples/redirectscript.js",
+        to: "redirectscript.js"
+      }
+    ]),
     new BrowserSyncPlugin(
       {
         host: "localhost",
