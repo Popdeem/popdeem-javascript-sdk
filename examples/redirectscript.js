@@ -34,7 +34,7 @@ $(document).ready(function(){
                 <p>UserName: ${data.user.username}</p>
                 Bio:<p>Bio: ${data.user.bio}</p>
                 Website:<p>Website: ${data.user.website}</p>
-                <button onclick=" window.close();">Please close and Click "Register User on Popdeem with Instagram" again!</button>
+                <button class="btn btn-primary mb-2" onclick=" window.close();">Please close and Click "Register User on Popdeem with Instagram" again!</button>
                `;
            $("#result").append(result);
         }
