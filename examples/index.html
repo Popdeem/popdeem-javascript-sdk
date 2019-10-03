@@ -13,7 +13,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: "497946473670301",
+          appId: "FB-APP-ID",
           autoLogAppEvents: true,
           xfbml: true,
           version: "v4.0"
@@ -27,7 +27,7 @@
     ></script>
     <script>
       window.onload = function() {
-        pd.init({ API_KEY: "e934194f-cf4d-4b79-8526-9ccbbc06d0c9" });
+        pd.init({ API_KEY: "API-KEY" });
       };
 
       function setlog(data) {
@@ -53,7 +53,7 @@
                   access_token: accessToken,
                   id: userID
                 },
-                unique_identifier: "11322166"
+                unique_identifier: "unique_id"
               }
             });
           } else {
@@ -133,7 +133,7 @@
     </script>
     <script>
       function authenticateInstagram() {
-        var CLIENT_ID = "76361856d2bc47fe99495d189f8cdcf8";
+        var CLIENT_ID = "INSTAGRAM-CLIEND-ID";
         var REDIRECT_URI = "https://localhost:3000/instagram-popdeem.html";
         var url = "https://api.instagram.com/oauth/authorize/?client_id="+ CLIENT_ID + "&redirect_uri="+REDIRECT_URI+"&response_type=code&scope=basic";
         // Pop-up window size, change if you want
@@ -151,7 +151,7 @@
         }
 
       };
-      function registerUserwithTwitter() {
+      function registerUserwithInstagram() {
          const access_token = window.localStorage.getItem('InstagramToken')
          const id = window.localStorage.getItem('InstagramUserId') 
          if(access_token) {
@@ -174,36 +174,41 @@
       class="container d-flex justify-content-center align-items-center flex-column"
       style="padding-top: 50px;"
     >
+
+    <center><img src="./popdeem.png"></center>
       <h3 class="m-4" style="padding-bottom: 20px;">
         Popdeem Javascript SDK Example
       </h3>
       <div class="d-flex flex-column">
         <button class="btn btn-primary mb-2" onclick="registerUserwithFacebook()">
-          Register User on Popdeem with Facebook
+          Login with Facebook & Register Popdeem User
         </button>
-        <button class="btn btn-primary mb-2" onclick="registerUserwithTwitter()">
-          Register User on Popdeem with Instagram
+        <button class="btn btn-primary mb-2" onclick="registerUserwithInstagram()">
+           Login with Instagram & Register Popdeem User
+        </button>
+
+        </br>
+
+        <button class="btn btn-primary mb-2" onclick="rewards()">
+          Get Social Rewards
+        </button>
+        <button class="btn btn-primary mb-2" onclick="activity()">
+          GET Social Activity
+        </button>
+        <button class="btn btn-primary mb-2" onclick="userInfo()">
+          GET Popdeem User Info
+        </button>
+
+        </br>
+
+        <button class="btn btn-primary mb-2" onclick="DisconnectSocialAccount()">
+          Disconnect User
         </button>
         <button class="btn btn-primary mb-2">
           Update Existing Popdeem User
         </button>
         <button class="btn btn-primary mb-2">
           Connect Social Account to Existing Popdeem User
-        </button>
-        <button class="btn btn-primary mb-2" onclick="userInfo()">
-          Get User information from Popdeem
-        </button>
-        <button
-          class="btn btn-primary mb-2"
-          onclick="DisconnectSocialAccount()"
-        >
-          Disconnect User
-        </button>
-        <button class="btn btn-primary mb-2" onclick="rewards()">
-          Get Rewards
-        </button>
-        <button class="btn btn-primary mb-2" onclick="activity()">
-          Get Activity
         </button>
 
         <textarea
