@@ -19,7 +19,7 @@ export const registerUser = (
     id: userID
   };
   const data =
-    typeof type === "object"
+    typeof type === "object" && type !== null
       ? type
       : {
           user
@@ -33,7 +33,29 @@ export const registerUser = (
   });
 };
 
-export const updateUser = data => {
+export const updateUser = (
+  thirdPartyUserToken = "",
+  socialMedia,
+  accessToken
+) => {
+  let data = {};
+  if (typeof thirdPartyUserToken === "object" && thirdPartyUserToken !== null) {
+    data = thirdPartyUserToken;
+  } else {
+    if (thirdPartyUserToken) {
+      data.third_party_user_token = thirdPartyUserToken;
+    }
+    if (socialMedia && accessToken) {
+      const user = {};
+      user[socialMedia] = {
+        access_token: accessToken
+      };
+      data.user = user;
+    } else if (socialMedia || accessToken) {
+      throw new Error("Please submit both socialMedia and accessToken");
+    }
+  }
+
   return request.put(`users/${USER_ID}`, data);
 };
 
@@ -56,7 +78,7 @@ export const DisconnectSocialAccount = (
     id: userID
   };
   const data =
-    typeof type === "object"
+    typeof type === "object" && type !== null
       ? type
       : {
           user
@@ -70,8 +92,4 @@ export const rewards = () => {
 
 export const activity = () => {
   return request.get("feeds");
-};
-
-export const updateUserThirdPartyToken = third_party_user_token => {
-  return request.put(`users/${USER_ID}`, { third_party_user_token });
 };
