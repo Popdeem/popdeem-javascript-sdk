@@ -35,6 +35,10 @@ module.exports = {
       {
         from: "examples/redirectscript.js",
         to: "redirectscript.js"
+      },
+      {
+        from: "examples/img",
+        to: "img"
       }
     ]),
     new BrowserSyncPlugin(

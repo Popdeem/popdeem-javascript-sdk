@@ -47,23 +47,15 @@
           if (response.authResponse) {
             const accessToken = response.authResponse.accessToken;
             const userID = response.authResponse.userID;
-            registerUser({
-              user: {
-                facebook: {
-                  access_token: accessToken,
-                  id: userID
-                },
-                unique_identifier: "unique_id"
-              }
-            });
+            registerUser("facebook", accessToken, userID, '11322166')
           } else {
             console.log("User cancelled login or did not fully authorize.");
           }
         });
       }
-      function registerUser(data) {
+      function registerUser(type, accessToken, userID, unique_identifier) {
         showLoading();
-        pd.registerUser(data)
+        pd.registerUser(type, accessToken, userID, unique_identifier)
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();
@@ -111,15 +103,8 @@
       }
       function DisconnectSocialAccount() {
         showLoading();
-        pd.DisconnectSocialAccount({
-          user: {
-            facebook: {
-              access_token:
-                "EAAZA2c15Dn9ABAPsBmvwVVkqZAfaznyqf7tqieJI12fvC8hypeluUAkQJeTUYZBqgb70wfN74Q6NxYSzogFrIYxTSW5GuQU3mzaxSkWtX3xc5gjkonrbdLPYzCrZAqD7PEtUX1Po7ypOpaop0GndC4v6okuBCcO0TLh1bee1f8vBeOuoyM8Ca61pcYRAZASojFjRjMpaa9q2tzUXD1yMeTMZBftlzmFUAUwgW2mLnEcwZDZD",
-              id: "2424203447860834"
-            }
-          }
-        })
+        const access_token = "EAAZA2c15Dn9ABAPsBmvwVVkqZAfaznyqf7tqieJI12fvC8hypeluUAkQJeTUYZBqgb70wfN74Q6NxYSzogFrIYxTSW5GuQU3mzaxSkWtX3xc5gjkonrbdLPYzCrZAqD7PEtUX1Po7ypOpaop0GndC4v6okuBCcO0TLh1bee1f8vBeOuoyM8Ca61pcYRAZASojFjRjMpaa9q2tzUXD1yMeTMZBftlzmFUAUwgW2mLnEcwZDZD"
+        pd.DisconnectSocialAccount('facebook', access_token,"2424203447860834" )
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();
@@ -155,15 +140,7 @@
          const access_token = window.localStorage.getItem('InstagramToken')
          const id = window.localStorage.getItem('InstagramUserId') 
          if(access_token) {
-          registerUser({
-              user: {
-                instagram: {
-                  access_token,
-                  id
-                },
-                unique_identifier: "11322155"
-              }
-            });
+            registerUser("instagram", access_token, id, "11322155")
          }else {
           authenticateInstagram()
          }

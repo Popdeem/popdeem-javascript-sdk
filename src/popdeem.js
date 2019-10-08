@@ -1,11 +1,29 @@
 import * as request from "./utils/request";
 import { saveUser, clearData, getToken } from "./utils/localStorage";
-let USER_ID = getToken ()|| null;
+let USER_ID = getToken() || null;
 export const init = config => {
   request.init(config);
 };
 
-export const registerUser = data => {
+export const registerUser = (
+  type = "",
+  accessToken = "",
+  userID = "",
+  unique_identifier = ""
+) => {
+  const user = {
+    unique_identifier
+  };
+  user[type] = {
+    access_token: accessToken,
+    id: userID
+  };
+  const data =
+    typeof type === "object"
+      ? type
+      : {
+          user
+        };
   return request.post("users", data).then(result => {
     const { data } = result;
     saveUser(data.user);
@@ -27,7 +45,22 @@ export const userInfo = () => {
   return request.get(`users/${USER_ID}`);
 };
 
-export const DisconnectSocialAccount = data => {
+export const DisconnectSocialAccount = (
+  type = "",
+  accessToken = "",
+  userID = ""
+) => {
+  const user = {};
+  user[type] = {
+    access_token: accessToken,
+    id: userID
+  };
+  const data =
+    typeof type === "object"
+      ? type
+      : {
+          user
+        };
   return request.post("users/disconnect_social_account", data);
 };
 
@@ -37,4 +70,8 @@ export const rewards = () => {
 
 export const activity = () => {
   return request.get("feeds");
+};
+
+export const updateUserThirdPartyToken = third_party_user_token => {
+  return request.put(`users/${USER_ID}`, { third_party_user_token });
 };
