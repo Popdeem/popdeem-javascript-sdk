@@ -13,11 +13,15 @@ export const registerUser = (
   type = "",
   accessToken = "",
   userID = "",
-  unique_identifier = ""
+  unique_identifier = "",
+  third_party_user_token
 ) => {
   const user = {
     unique_identifier
   };
+  if (third_party_user_token) {
+    user.third_party_user_token = third_party_user_token;
+  }
   user[type] = {
     access_token: accessToken,
     id: userID
@@ -59,7 +63,7 @@ export const updateUser = (
       throw new Error("Please submit both socialMedia and accessToken");
     }
   }
-  
+
   return request.put(`users/${USER_ID}`, data);
 };
 

@@ -53,9 +53,9 @@
           }
         });
       }
-      function registerUser(type, accessToken, userID, unique_identifier) {
+      function registerUser(type, accessToken, userID, unique_identifier,third_party_user_token) {
         showLoading();
-        pd.registerUser(type, accessToken, userID, unique_identifier)
+        pd.registerUser(type, accessToken, userID, unique_identifier, third_party_user_token)
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();
