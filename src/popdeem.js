@@ -1,6 +1,10 @@
 import * as request from "./utils/request";
-import { saveUser, clearData, getToken } from "./utils/localStorage";
-let USER_ID = getToken() || null;
+import { saveUser, clearData, getToken, getUserId } from "./utils/localStorage";
+let USER_TOKEN = getToken() || null;
+let USER_ID = getUserId() || null;
+if (USER_TOKEN) {
+  request.setUserToken(USER_TOKEN);
+}
 export const init = config => {
   request.init(config);
 };
@@ -55,7 +59,7 @@ export const updateUser = (
       throw new Error("Please submit both socialMedia and accessToken");
     }
   }
-
+  
   return request.put(`users/${USER_ID}`, data);
 };
 

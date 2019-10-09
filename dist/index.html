@@ -13,7 +13,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: "FB-APP-ID",
+          appId: "497946473670301",
           autoLogAppEvents: true,
           xfbml: true,
           version: "v4.0"
@@ -27,7 +27,7 @@
     </script>
     <script>
       window.onload = function() {
-        pd.init({ API_KEY: "API-KEY" });
+        pd.init({ API_KEY: "e934194f-cf4d-4b79-8526-9ccbbc06d0c9" });
       };
 
       function setlog(data) {
@@ -146,6 +146,21 @@
          }
        
       }
+      function updateUser() {
+        showLoading();
+
+        const thirdPartyToken = "splio-third-party-token";
+
+        pd.updateUser(thirdPartyToken)
+          .then(result => {
+            setlog(JSON.stringify(result.data));
+            hideLoading();
+          })
+          .catch(function(error) {
+            setlog(JSON.stringify(error.response ? error.response.data: error));
+            hideLoading();
+          });
+      }
     </script>
     <div
       class="container d-flex justify-content-center align-items-center flex-column"
@@ -181,7 +196,7 @@
         <button class="btn btn-primary mb-2" onclick="DisconnectSocialAccount()">
           Disconnect User
         </button>
-        <button class="btn btn-primary mb-2">
+        <button class="btn btn-primary mb-2" onclick="updateUser()">
           Update Existing Popdeem User
         </button>
         <button class="btn btn-primary mb-2">
