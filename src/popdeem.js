@@ -67,7 +67,22 @@ export const updateUser = (
   return request.put(`users/${USER_ID}`, data);
 };
 
-export const connectSocialAccount = data => {
+export const connectSocialAccount = (
+  type = "",
+  accessToken = "",
+  userID = ""
+) => {
+  const user = {};
+  user[type] = {
+    access_token: accessToken,
+    id: userID
+  };
+  const data =
+    typeof type === "object" && type !== null
+      ? type
+      : {
+          user
+        };
   return request.post("users/connect_social_account", data);
 };
 
