@@ -13,7 +13,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: "497946473670301",
+          appId: "FB-APP-ID",
           autoLogAppEvents: true,
           xfbml: true,
           version: "v4.0"
@@ -27,7 +27,7 @@
     </script>
     <script>
       window.onload = function() {
-        pd.init({ API_KEY: "e934194f-cf4d-4b79-8526-9ccbbc06d0c9" });
+        pd.init("FB-APP-ID");
       };
 
       function setlog(data) {
@@ -47,15 +47,15 @@
           if (response.authResponse) {
             const accessToken = response.authResponse.accessToken;
             const userID = response.authResponse.userID;
-            registerUser("facebook", accessToken, userID, '11322166')
+            registerUser("facebook", accessToken, userID)
           } else {
             console.log("User cancelled login or did not fully authorize.");
           }
         });
       }
-      function registerUser(type, accessToken, userID, unique_identifier,third_party_user_token) {
+      function registerUser(socialMediaType, accessToken, userID,thirdPartyUserToken) {
         showLoading();
-        pd.registerUser(type, accessToken, userID, unique_identifier, third_party_user_token)
+        pd.registerUser(socialMediaType, accessToken, userID, thirdPartyUserToken)
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();
@@ -140,7 +140,7 @@
          const access_token = window.localStorage.getItem('InstagramToken')
          const id = window.localStorage.getItem('InstagramUserId') 
          if(access_token) {
-            registerUser("instagram", access_token, id, "11322155")
+            registerUser("instagram", access_token, id)
          }else {
           authenticateInstagram()
          }

@@ -8,7 +8,7 @@ const API_URL = `${HOST_URL}/api/v2`;
 
 const constructUrlEndPoint = api => `${API_URL}/${api}`;
 
-export const init = ({ API_KEY }) => {
+export const init = (API_KEY) => {
   axios.defaults.headers.common["Api-Key"] = API_KEY;
 };
 

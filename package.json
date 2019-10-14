@@ -1,6 +1,6 @@
 {
   "name": "popdeem-javascript-sdk",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Javascript sdk for Popdeem",
   "main": "dist/bundle.js",
   "scripts": {
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/hoavo/popdeem-javascript-sdk#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "fingerprintjs": "^0.5.3",
     "local-storage": "^2.0.0"
   },
   "devDependencies": {

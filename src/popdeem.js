@@ -1,34 +1,39 @@
+import Fingerprint from "fingerprintjs";
 import * as request from "./utils/request";
-import { saveUser, clearData, getToken, getUserId } from "./utils/localStorage";
+import { saveUser, getToken, getUserId } from "./utils/localStorage";
 let USER_TOKEN = getToken() || null;
 let USER_ID = getUserId() || null;
+
 if (USER_TOKEN) {
+  console.info('USER_TOKEN', USER_TOKEN)
   request.setUserToken(USER_TOKEN);
 }
-export const init = config => {
-  request.init(config);
+
+const unique_identifier = new Fingerprint().get();
+
+export const init = API_KEY => {
+  request.init(API_KEY);
 };
 
 export const registerUser = (
-  type = "",
+  socialMediaType = "",
   accessToken = "",
   userID = "",
-  unique_identifier = "",
-  third_party_user_token
+  thirdPartyUserToken
 ) => {
   const user = {
     unique_identifier
   };
-  if (third_party_user_token) {
-    user.third_party_user_token = third_party_user_token;
+  if (thirdPartyUserToken) {
+    user.third_party_user_token = thirdPartyUserToken;
   }
-  user[type] = {
+  user[socialMediaType] = {
     access_token: accessToken,
     id: userID
   };
   const data =
-    typeof type === "object" && type !== null
-      ? type
+    typeof socialMediaType === "object" && socialMediaType !== null
+      ? socialMediaType
       : {
           user
         };
@@ -43,7 +48,7 @@ export const registerUser = (
 
 export const updateUser = (
   thirdPartyUserToken = "",
-  socialMedia,
+  socialMediaType,
   accessToken
 ) => {
   let data = {};
@@ -53,14 +58,14 @@ export const updateUser = (
     if (thirdPartyUserToken) {
       data.third_party_user_token = thirdPartyUserToken;
     }
-    if (socialMedia && accessToken) {
+    if (socialMediaType && accessToken) {
       const user = {};
-      user[socialMedia] = {
+      user[socialMediaType] = {
         access_token: accessToken
       };
       data.user = user;
-    } else if (socialMedia || accessToken) {
-      throw new Error("Please submit both socialMedia and accessToken");
+    } else if (socialMediaType || accessToken) {
+      throw new Error("Please submit both socialMediaType and accessToken");
     }
   }
 
@@ -68,18 +73,18 @@ export const updateUser = (
 };
 
 export const connectSocialAccount = (
-  type = "",
+  socialMediaType = "",
   accessToken = "",
   userID = ""
 ) => {
   const user = {};
-  user[type] = {
+  user[socialMediaType] = {
     access_token: accessToken,
     id: userID
   };
   const data =
-    typeof type === "object" && type !== null
-      ? type
+    typeof socialMediaType === "object" && type !== null
+      ? socialMediaType
       : {
           user
         };
@@ -91,18 +96,18 @@ export const userInfo = () => {
 };
 
 export const DisconnectSocialAccount = (
-  type = "",
+  socialMediaType = "",
   accessToken = "",
   userID = ""
 ) => {
   const user = {};
-  user[type] = {
+  user[socialMediaType] = {
     access_token: accessToken,
     id: userID
   };
   const data =
-    typeof type === "object" && type !== null
-      ? type
+    typeof socialMediaType === "object" && socialMediaType !== null
+      ? socialMediaType
       : {
           user
         };

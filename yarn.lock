@@ -2845,6 +2845,11 @@ findup-sync@3.0.0:
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
 
+fingerprintjs@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/fingerprintjs/-/fingerprintjs-0.5.3.tgz#0026422fae1ab1003691e136c143e19b7527b255"
+  integrity sha1-ACZCL64asQA2keE2wUPhm3UnslU=
+
 flush-write-stream@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
