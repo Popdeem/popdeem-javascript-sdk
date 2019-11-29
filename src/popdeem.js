@@ -1,11 +1,10 @@
 import Fingerprint from "fingerprintjs";
 import * as request from "./utils/request";
-import { saveUser, getToken, getUserId } from "./utils/localStorage";
+import { saveUser, getToken, getUserId, clearData } from "./utils/localStorage";
 let USER_TOKEN = getToken() || null;
 let USER_ID = getUserId() || null;
 
 if (USER_TOKEN) {
-  console.info('USER_TOKEN', USER_TOKEN)
   request.setUserToken(USER_TOKEN);
 }
 
@@ -120,4 +119,20 @@ export const rewards = () => {
 
 export const activity = () => {
   return request.get("feeds");
+};
+
+export const discover = (rewardId) => {
+  if(!rewardId) {
+    throw new Error("rewardId is required");
+  }
+  return request.get(`rewards/${rewardId}/autodiscovery`);
+};
+
+export const wallet = () => {
+  return request.get("wallet");
+};
+
+export const logout = () => {
+  clearData();
+  return request.setUserToken("");
 };

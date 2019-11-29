@@ -13,7 +13,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: "FB-APP-ID",
+          appId: "497946473670301",
           autoLogAppEvents: true,
           xfbml: true,
           version: "v4.0"
@@ -27,12 +27,21 @@
     </script>
     <script>
       window.onload = function() {
-        pd.init("API_KEY");
+        pd.init("e934194f-cf4d-4b79-8526-9ccbbc06d0c9");
       };
 
       function setlog(data) {
         const logArea = document.getElementById("popdeem-log");
         logArea.value = data;
+      }
+      function toggleDiscover(rewardId) {
+        const discovery = document.getElementById("discovery");
+        if (discovery.style.display === "none") {
+            discovery.style.display = "block";
+          } else {
+            discovery.style.display = "none";
+          }
+          discovery.innerHTML = 'Discovery for Reward Id: ' + rewardId;
       }
       function showLoading() {
         const logArea = document.getElementById("loading");
@@ -80,6 +89,35 @@
       function rewards() {
         showLoading();
         pd.rewards()
+          .then(result => {
+            const {rewards} =result.data
+            if(rewards.length) {
+              window.rewardId = rewards[0].id;
+              toggleDiscover(window.rewardId );
+            }
+            setlog(JSON.stringify(result.data));
+            hideLoading();
+          })
+          .catch(function(error) {
+            setlog(JSON.stringify(error.response ? error.response.data: error));
+            hideLoading();
+          });
+      }
+      function discovery() {
+        showLoading();
+        pd.discover(window.rewardId)
+          .then(result => {
+            setlog(JSON.stringify(result.data));
+            hideLoading();
+          })
+          .catch(function(error) {
+            setlog(JSON.stringify(error.response ? error.response.data: error));
+            hideLoading();
+          });
+      }
+      function userWallet() {
+        showLoading();
+        pd.wallet()
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();
@@ -161,6 +199,12 @@
             hideLoading();
           });
       }
+      function logoutUser() {
+        showLoading();
+        pd.logout();
+        setlog('User logout!');
+        hideLoading();
+      }
     </script>
     <div
       class="container d-flex justify-content-center align-items-center flex-column"
@@ -184,11 +228,17 @@
         <button class="btn btn-primary mb-2" onclick="rewards()">
           Get Social Rewards
         </button>
+        <button id="discovery" class="btn btn-primary mb-2" style="display: none;" onclick="discovery()">
+          Discovery
+        </button>
         <button class="btn btn-primary mb-2" onclick="activity()">
           GET Social Activity
         </button>
         <button class="btn btn-primary mb-2" onclick="userInfo()">
           GET Popdeem User Info
+        </button>
+        <button class="btn btn-primary mb-2" onclick="userWallet()">
+          GET Popdeem Wallet
         </button>
 
         </br>
@@ -202,7 +252,10 @@
         <button class="btn btn-primary mb-2">
           Connect Social Account to Existing Popdeem User
         </button>
-
+      </br>
+      <button class="btn btn-primary mb-2" onclick="logoutUser()">
+        Logout
+      </button>
         <textarea
           id="popdeem-log"
           class="mt-5"

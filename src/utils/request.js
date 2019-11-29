@@ -27,3 +27,4 @@ export const put = (api, params, config) => {
 export const setUserToken = token => {
   axios.defaults.headers.common["User-Token"] = token;
 };
+
