@@ -121,15 +121,18 @@ export const activity = () => {
   return request.get("feeds");
 };
 
-export const discover = (rewardId) => {
+export const discover = (rewardId, network) => {
   if(!rewardId) {
     throw new Error("rewardId is required");
   }
-  return request.get(`rewards/${rewardId}/autodiscovery`);
+  if(!network) {
+    throw new Error("network is required");
+  }
+  return request.post(`rewards/${rewardId}/autodiscovery`, {network});
 };
 
 export const wallet = () => {
-  return request.get("wallet");
+  return request.get("rewards/wallet");
 };
 
 export const logout = () => {

@@ -13,7 +13,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: "497946473670301",
+          appId: "FB-APP-ID",
           autoLogAppEvents: true,
           xfbml: true,
           version: "v4.0"
@@ -27,7 +27,7 @@
     </script>
     <script>
       window.onload = function() {
-        pd.init("e934194f-cf4d-4b79-8526-9ccbbc06d0c9");
+        pd.init("API_KEY");
       };
 
       function setlog(data) {
@@ -105,7 +105,7 @@
       }
       function discovery() {
         showLoading();
-        pd.discover(window.rewardId)
+        pd.discover(window.rewardId, 'facebook')
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();

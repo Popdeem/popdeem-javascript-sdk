@@ -105,7 +105,7 @@
       }
       function discovery() {
         showLoading();
-        pd.discover(window.rewardId)
+        pd.discover(window.rewardId, 'facebook')
           .then(result => {
             setlog(JSON.stringify(result.data));
             hideLoading();
