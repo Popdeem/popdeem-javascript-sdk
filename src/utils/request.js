@@ -1,10 +1,10 @@
 import axios from "axios";
-import { HOST_URL } from "../constants";
+import { HOST_URL, STAGING_HOST_URL } from "../constants";
 
 axios.defaults.headers.common["Accept"] = "application/json";
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
-const API_URL = `${HOST_URL}/api/v2`;
+const API_URL = `${STAGING_HOST_URL}/api/v2`;
 
 const constructUrlEndPoint = api => `${API_URL}/${api}`;
 

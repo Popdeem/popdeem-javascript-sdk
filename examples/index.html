@@ -1,283 +1,315 @@
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
     <title>Popdeem Javascript SDK Sample</title>
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
     />
-  </head>
-  <body>
-    <script>
-      window.fbAsyncInit = function() {
+</head>
+<body>
+<script>
+    window.fbAsyncInit = function () {
         FB.init({
-          appId: "FB-APP-ID",
-          autoLogAppEvents: true,
-          xfbml: true,
-          version: "v4.0"
+            appId: "1706317436274686",
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: "v4.0"
         });
-      };
-    </script>
-    <script
-      async
-      defer
-      src="https://connect.facebook.net/en_US/sdk.js">
-    </script>
-    <script>
-      window.onload = function() {
-        pd.init("API_KEY");
-      };
+    };
+</script>
+<script
+        async
+        defer
+        src="https://connect.facebook.net/en_US/sdk.js">
+</script>
+<script>
+    window.onload = function () {
+        console.log("Window loaded");
+        pd.init("4f4e9cfd-781e-4921-b8dd-f7804f787915");
+    };
 
-      function setlog(data) {
+    function setlog(data) {
         const logArea = document.getElementById("popdeem-log");
         logArea.value = data;
-      }
-      function toggleDiscover(rewardId) {
+    }
+
+    function toggleDiscover(rewardId) {
         const discovery = document.getElementById("discovery");
         if (discovery.style.display === "none") {
             discovery.style.display = "block";
-          } else {
+        } else {
             discovery.style.display = "none";
-          }
-          discovery.innerHTML = 'Discovery for Reward Id: ' + rewardId;
-      }
-      function showLoading() {
+        }
+        discovery.innerHTML = 'Discovery for Reward Id: ' + rewardId;
+    }
+
+    function showLoading() {
         const logArea = document.getElementById("loading");
         logArea.style.visibility = "visible";
-      }
-      function hideLoading() {
+    }
+
+    function hideLoading() {
         const logArea = document.getElementById("loading");
         logArea.style.visibility = "hidden";
-      }
-      function registerUserwithFacebook() {
-        FB.login(function(response) {
-          if (response.authResponse) {
-            const accessToken = response.authResponse.accessToken;
-            const userID = response.authResponse.userID;
-            registerUser("facebook", accessToken, userID)
-          } else {
-            console.log("User cancelled login or did not fully authorize.");
-          }
+    }
+
+    function registerUserwithFacebook() {
+        FB.login(function (response) {
+            if (response.authResponse) {
+                const accessToken = response.authResponse.accessToken;
+                const userID = response.authResponse.userID;
+                registerUser("facebook", accessToken, userID)
+            } else {
+                console.log("User cancelled login or did not fully authorize.");
+            }
         });
-      }
-      function registerUser(socialMediaType, accessToken, userID,thirdPartyUserToken) {
+    }
+
+    function ConnectSocialAccount() {
+
+        if (access_token) {
+            pd.connectSocialAccount("instagram", access_token, id);
+        }else{
+          authenticateInstagram();
+        }
+    }
+
+    function registerUser(socialMediaType, accessToken, userID, thirdPartyUserToken) {
         showLoading();
         pd.registerUser(socialMediaType, accessToken, userID, thirdPartyUserToken)
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function userInfo() {
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function userInfo() {
         showLoading();
         pd.userInfo()
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function rewards() {
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function rewards() {
         showLoading();
         pd.rewards()
-          .then(result => {
-            const {rewards} =result.data
-            if(rewards.length) {
-              window.rewardId = rewards[0].id;
-              toggleDiscover(window.rewardId );
-            }
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function discovery() {
+            .then(result => {
+                const {rewards} = result.data
+                if (rewards.length) {
+                    window.rewardId = rewards[0].id;
+                    toggleDiscover(window.rewardId);
+                }
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function discovery() {
         showLoading();
         pd.discover(window.rewardId, 'facebook')
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function userWallet() {
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function userWallet() {
         showLoading();
         pd.wallet()
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function activity() {
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function activity() {
         showLoading();
         pd.activity()
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function DisconnectSocialAccount() {
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function DisconnectSocialAccount() {
         showLoading();
         const access_token = "EAAZA2c15Dn9ABAPsBmvwVVkqZAfaznyqf7tqieJI12fvC8hypeluUAkQJeTUYZBqgb70wfN74Q6NxYSzogFrIYxTSW5GuQU3mzaxSkWtX3xc5gjkonrbdLPYzCrZAqD7PEtUX1Po7ypOpaop0GndC4v6okuBCcO0TLh1bee1f8vBeOuoyM8Ca61pcYRAZASojFjRjMpaa9q2tzUXD1yMeTMZBftlzmFUAUwgW2mLnEcwZDZD"
-        pd.DisconnectSocialAccount('facebook', access_token,"2424203447860834" )
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
+        pd.DisconnectSocialAccount('facebook', access_token, "2424203447860834")
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function registerUserwithInstagram() {
+      const access_token = window.localStorage.getItem('InstagramToken')
+      console.log("This is access Token" + access_token);
+
+      const id = window.localStorage.getItem('InstagramUserId')
+
+      if (access_token) {
+        pd.registerUser("instagram", access_token, id)
+      } else {
+        authenticateInstagram();
       }
-     
-    </script>
-    <script>
-      function authenticateInstagram() {
-        var CLIENT_ID = "INSTAGRAM-CLIEND-ID";
-        var REDIRECT_URI = "https://localhost:3000/instagram-popdeem.html";
-        var url = "https://api.instagram.com/oauth/authorize/?client_id="+ CLIENT_ID + "&redirect_uri="+REDIRECT_URI+"&response_type=code&scope=basic";
+
+    }
+
+</script>
+<script>
+    import {connectSocialAccount} from "../src/popdeem";
+
+    function authenticateInstagram() {
+        var CLIENT_ID = "825678331228995";
+        var REDIRECT_URI = "https://10976fbd.ngrok.io/instagram-popdeem.html";
+        var url = "https://api.instagram.com/oauth/authorize/?client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URI + "&scope=user_profile,user_media&response_type=code";
         // Pop-up window size, change if you want
         var popupWidth = 700,
             popupHeight = 500,
             popupLeft = (window.screen.width - popupWidth) / 2,
             popupTop = (window.screen.height - popupHeight) / 2;
         // Url needs to point to instagram_auth.php
-        var popup = window.open('instagram-popdeem.html', '', 'width='+popupWidth+',height='+popupHeight+',left='+popupLeft+',top='+popupTop+'');
-        popup.onload = function() { 
-          if(window.location.hash.length == 0) {
-              popup.open(url, '_self');
-          }
+        var popup = window.open('instagram-popdeem.html', '', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + popupLeft + ',top=' + popupTop + '');
+        popup.onload = function () {
+            if (window.location.hash.length == 0) {
+                popup.open(url, '_self');
+            }
 
         }
 
-      };
-      function registerUserwithInstagram() {
-         const access_token = window.localStorage.getItem('InstagramToken')
-         const id = window.localStorage.getItem('InstagramUserId') 
-         if(access_token) {
-            registerUser("instagram", access_token, id)
-         }else {
-          authenticateInstagram()
-         }
-       
-      }
-      function updateUser() {
+    };
+
+
+
+
+    function updateUser() {
         showLoading();
 
         const thirdPartyToken = "splio-third-party-token";
 
         pd.updateUser(thirdPartyToken)
-          .then(result => {
-            setlog(JSON.stringify(result.data));
-            hideLoading();
-          })
-          .catch(function(error) {
-            setlog(JSON.stringify(error.response ? error.response.data: error));
-            hideLoading();
-          });
-      }
-      function logoutUser() {
+            .then(result => {
+                setlog(JSON.stringify(result.data));
+                hideLoading();
+            })
+            .catch(function (error) {
+                setlog(JSON.stringify(error.response ? error.response.data : error));
+                hideLoading();
+            });
+    }
+
+    function logoutUser() {
         showLoading();
         pd.logout();
         setlog('User logout!');
         hideLoading();
-      }
-    </script>
-    <div
-      class="container d-flex justify-content-center align-items-center flex-column"
-      style="padding-top: 50px;"
-    >
+    }
+</script>
+<div
+        class="container d-flex justify-content-center align-items-center flex-column"
+        style="padding-top: 50px;"
+>
 
     <center><img src="img/popdeem.png"></center>
-      <h3 class="m-4" style="padding-bottom: 20px;">
+    <h3 class="m-4" style="padding-bottom: 20px;">
         Popdeem Javascript SDK Sample
-      </h3>
-      <div class="d-flex flex-column">
+    </h3>
+    <div class="d-flex flex-column">
         <button class="btn btn-primary mb-2" onclick="registerUserwithFacebook()">
-          Login with Facebook & Register Popdeem User
+            Login with Facebook & Register Popdeem User
         </button>
         <button class="btn btn-primary mb-2" onclick="registerUserwithInstagram()">
-           Login with Instagram & Register Popdeem User
+            Login with Instagram & Register Popdeem User
         </button>
 
         </br>
 
         <button class="btn btn-primary mb-2" onclick="rewards()">
-          Get Social Rewards
+            Get Social Rewards
         </button>
         <button id="discovery" class="btn btn-primary mb-2" style="display: none;" onclick="discovery()">
-          Discovery
+            Discovery
         </button>
         <button class="btn btn-primary mb-2" onclick="activity()">
-          GET Social Activity
+            GET Social Activity
         </button>
         <button class="btn btn-primary mb-2" onclick="userInfo()">
-          GET Popdeem User Info
+            GET Popdeem User Info
         </button>
         <button class="btn btn-primary mb-2" onclick="userWallet()">
-          GET Popdeem Wallet
+            GET Popdeem Wallet
         </button>
 
         </br>
 
         <button class="btn btn-primary mb-2" onclick="DisconnectSocialAccount()">
-          Disconnect User
+            Disconnect User
         </button>
         <button class="btn btn-primary mb-2" onclick="updateUser()">
-          Update Existing Popdeem User
+            Update Existing Popdeem User
         </button>
-        <button class="btn btn-primary mb-2">
-          Connect Social Account to Existing Popdeem User
+        <button class="btn btn-primary mb-2" onclick="ConnectSocialAccount()">
+            Connect Social Account to Existing Popdeem User
         </button>
-      </br>
-      <button class="btn btn-primary mb-2" onclick="logoutUser()">
-        Logout
-      </button>
+        </br>
+        <button class="btn btn-primary mb-2" onclick="logoutUser()">
+            Logout
+        </button>
         <textarea
-          id="popdeem-log"
-          class="mt-5"
-          style="height: 200px;"
-          placeholder="PopDeem Logs"
+                id="popdeem-log"
+                class="mt-5"
+                style="height: 200px;"
+                placeholder="PopDeem Logs"
         ></textarea>
-      </div>
     </div>
-    <div
-      id="loading"
-      class="d-flex justify-content-center align-items-center"
-      style="position: absolute; top:0;bottom:0;right:0;left:0;background-color: rgba(255,255,255,0.5);visibility:hidden;"
-    >
-      <div class="spinner-grow text-primary" role="status">
+</div>
+<div
+        id="loading"
+        class="d-flex justify-content-center align-items-center"
+        style="position: absolute; top:0;bottom:0;right:0;left:0;background-color: rgba(255,255,255,0.5);visibility:hidden;"
+>
+    <div class="spinner-grow text-primary" role="status">
         <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow text-danger" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow text-warning" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
     </div>
-  </body>
+    <div class="spinner-grow text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+</body>
 </html>
