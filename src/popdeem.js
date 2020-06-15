@@ -11,6 +11,7 @@ if (USER_TOKEN) {
 const unique_identifier = new Fingerprint().get();
 
 export const init = API_KEY => {
+  console.log("This is api key"+ API_KEY);
   request.init(API_KEY);
 };
 
@@ -26,10 +27,21 @@ export const registerUser = (
   if (thirdPartyUserToken) {
     user.third_party_user_token = thirdPartyUserToken;
   }
-  user[socialMediaType] = {
-    access_token: accessToken,
-    id: userID
-  };
+  if(socialMediaType==="instagram"){
+    user[socialMediaType] = {
+      short_term_token: accessToken,
+      id: userID,
+      full_name: "",
+      profile_picture: "",
+      useBasicDisplayAPI: true
+    };
+  }else{
+    user[socialMediaType] = {
+      access_token: accessToken,
+      id: userID,
+    };
+  }
+
   const data =
     typeof socialMediaType === "object" && socialMediaType !== null
       ? socialMediaType
@@ -78,8 +90,11 @@ export const connectSocialAccount = (
 ) => {
   const user = {};
   user[socialMediaType] = {
-    access_token: accessToken,
-    id: userID
+    short_term_token: accessToken,
+    id: userID,
+    useBasicDisplayAPI: true
+
+
   };
   const data =
     typeof socialMediaType === "object" && type !== null
